@@ -58,8 +58,6 @@ export class Quota {
         return new Quota(props)
     }
 
-    
-
     hasAvailableSpace(fileSize: number): boolean {
         return this.used + fileSize <= this.limit
     }
