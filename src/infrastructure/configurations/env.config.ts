@@ -8,7 +8,6 @@ export const envConfig = ConfigModule.forRoot({
     validationSchema: Joi.object({
         APP_ENV: Joi.string().valid('development', 'production').required(),
         PORT: Joi.number().port().required(),
-        JWT_SECRET: Joi.string().required(),
         DB_URL: Joi.string().required(),
         LOCAL_UPLOAD: Joi.string().required(),
         LOCAL_STORAGE: Joi.string().required(),
