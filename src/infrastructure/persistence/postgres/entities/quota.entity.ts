@@ -5,7 +5,7 @@ export class QuotaEntity {
     @PrimaryColumn()
     id: string
 
-    @Column()
+    @Column({ name: 'account_id' })
     accountId: string
 
     @Column()
