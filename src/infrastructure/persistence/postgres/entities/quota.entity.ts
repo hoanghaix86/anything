@@ -8,10 +8,10 @@ export class QuotaEntity {
     @Column({ name: 'account_id' })
     accountId: string
 
-    @Column()
+    @Column({ type: 'bigint' })
     used: number
 
-    @Column()
+    @Column({ type: 'bigint' })
     limit: number
 
     @Column({ name: 'created_at' })
