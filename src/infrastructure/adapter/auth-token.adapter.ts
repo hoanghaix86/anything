@@ -5,12 +5,10 @@ import { createId, isCuid } from '@paralleldrive/cuid2'
 @Injectable()
 export class AuthTokenAdapter implements IAuthTokenPort {
     generate(): string {
-        return `tk_${createId()}`
+        return createId()
     }
 
     verify(token: string): boolean {
-        if (!token.startsWith('tk_')) return false
-        token = token.slice(3)
         return isCuid(token)
     }
 }

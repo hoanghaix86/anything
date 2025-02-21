@@ -10,12 +10,12 @@ export class AuthController {
         private readonly signInUseCase: SignInUseCase,
     ) {}
 
-    @Post('sign-up')
+    @Post('signup')
     public async signUp(@Body() dto: SignUpDto) {
         return await this.signUpUseCase.execute(dto)
     }
 
-    @Post('sign-in')
+    @Post('signin')
     public async signIn(@Body() dto: SignInDto) {
         return await this.signInUseCase.execute(dto)
     }
