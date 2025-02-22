@@ -18,7 +18,6 @@ export class SignInUseCase {
 
     async execute(input: SignInCommand): Promise<{ accessToken: string }> {
         // Create and validate email value object
-        // Create and validate email value object
         const emailVO = EmailValueObject.fromRaw(input.email)
 
         // Find account by email
