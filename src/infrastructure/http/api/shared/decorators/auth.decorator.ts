@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
-import { RequestAuth } from '../shared/request'
+import { RequestAuth } from '../request'
 
 export const Auth = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
     const request: RequestAuth = ctx.switchToHttp().getRequest()

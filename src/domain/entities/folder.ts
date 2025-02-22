@@ -88,4 +88,14 @@ export class Folder {
         }
         this._deletedAt = undefined
     }
+
+    toValue(): FolderProps {
+        return {
+            id: this.id,
+            ownerId: this.ownerId,
+            name: this.name,
+            parentId: this.parentId,
+            deletedAt: this.deletedAt ? this.deletedAt.toISOString() : undefined,
+        }
+    }
 }

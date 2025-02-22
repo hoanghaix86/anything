@@ -17,23 +17,19 @@ export class SignInUseCase {
     ) {}
 
     async execute(input: SignInCommand): Promise<{ accessToken: string }> {
-        // Create and validate email value object
         const emailVO = EmailValueObject.fromRaw(input.email)
 
-        // Find account by email
         const account = await this.accountRepository.findOneByEmail(emailVO.getValue())
         if (!account) {
             throw new UnauthorizedException('Invalid email or password')
         }
 
-        // Validate password
         const isValid = await this.passwordHasher.compare(input.password, account.password.getValue())
         if (!isValid) {
             throw new UnauthorizedException('Invalid email or password')
         }
 
-        // Generate JWT token
-        const token = this.authToken.generate()
-        return { accessToken: token }
+        const accessToken = this.authToken.generate({ id: account.id })
+        return { accessToken }
     }
 }

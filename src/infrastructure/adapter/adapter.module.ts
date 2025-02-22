@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { IPasswordHasherPort } from 'src/domain/port/password-hasher.port'
 import { PasswordHasherAdapter } from './password-hasher.adapter'
 import { IAuthTokenPort } from 'src/domain/port/auth-token.port'
-import { AuthTokenAdapter } from './auth-token.adapter'
+import { JwtAuthTokenAdapter } from './jwt-auth-token.adapter'
 
 @Module({
     providers: [
@@ -12,7 +12,7 @@ import { AuthTokenAdapter } from './auth-token.adapter'
         },
         {
             provide: IAuthTokenPort,
-            useClass: AuthTokenAdapter,
+            useClass: JwtAuthTokenAdapter,
         },
     ],
     exports: [IPasswordHasherPort, IAuthTokenPort],

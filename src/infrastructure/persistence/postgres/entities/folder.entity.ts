@@ -11,9 +11,9 @@ export class FolderEntity {
     @Column()
     name: string
 
-    @Column({ name: 'parent_id', default: undefined })
+    @Column({ name: 'parent_id', default: null })
     parentId?: string
 
-    @Column({ name: 'deleted_at', default: undefined })
+    @Column({ name: 'deleted_at', default: null })
     deletedAt?: Date
 }
