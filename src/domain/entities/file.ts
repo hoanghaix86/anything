@@ -104,4 +104,18 @@ export class File {
     public moveToFolder(newFolderId: string): void {
         this._parentId = newFolderId
     }
+
+    public toValue(): FileProps {
+        return {
+            id: this.id,
+            ownerId: this.ownerId,
+            parentId: this.parentId,
+            source: this.source,
+            name: this.name,
+            size: this.size,
+            mimeType: this.mimeType,
+            createdAt: this.createdAt,
+            deletedAt: this.deletedAt,
+        }
+    }
 }
