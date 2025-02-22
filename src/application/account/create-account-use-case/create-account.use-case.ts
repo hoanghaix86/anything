@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common'
+import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common'
 import { CreateQuotaUseCase } from 'src/application/quota/create-quota-use-case/create-quota.use-case'
 import { Account } from 'src/domain/entities/account'
 import { IPasswordHasherPort } from 'src/domain/port/password-hasher.port'
@@ -9,6 +9,8 @@ import { CreateAccountCommand } from './create-account.command'
 
 @Injectable()
 export class CreateAccountUseCase {
+    private readonly logger = new Logger(CreateAccountUseCase.name)
+
     constructor(
         @Inject(IAccountRepositoryPort)
         private accountRepository: IAccountRepositoryPort,
@@ -18,6 +20,8 @@ export class CreateAccountUseCase {
     ) {}
 
     async execute(input: CreateAccountCommand): Promise<void> {
+        this.logger.log(`Creating account with email: ${input.email}`)
+
         const existingAccount = await this.accountRepository.findOneByEmail(input.email)
         if (existingAccount) {
             throw new ConflictException('Email already exists')
