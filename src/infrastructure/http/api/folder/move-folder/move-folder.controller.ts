@@ -8,12 +8,16 @@ import { MoveFolderDto } from './move-folder.dto'
 export class MoveFolderController {
     constructor(private readonly moveFolderUseCase: MoveFolderUseCase) {}
 
-    @Patch(':folderId/move')
-    async run(@Auth() auth: AuthDto, @Param('folderId') folderId: string, @Body() dto: MoveFolderDto) {
+    @Patch(':currnetId/move')
+    async run(
+        @Auth() auth: AuthDto,
+        @Param('currnetId') currentId: string,
+        @Body() dto: MoveFolderDto,
+    ) {
         await this.moveFolderUseCase.execute({
             accountId: auth.id,
-            folderId,
-            targetFolderId: dto.targetFolderId,
+            currentId,
+            targetId: dto.targetId,
         })
     }
 }

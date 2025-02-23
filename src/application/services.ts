@@ -1,4 +1,3 @@
-import { Module } from '@nestjs/common'
 import { ChangePasswordUseCase } from './account/change-password-use-case/change-password.use-case'
 import { CreateAccountUseCase } from './account/create-account-use-case/create-account.use-case'
 import { SignInUseCase } from './auth/sign-in-use-case/sign-in.use-case'
@@ -13,7 +12,10 @@ import { HardDeleteFolderUseCase } from './folder/hard-delete-folder-use-case/ha
 import { MoveFolderUseCase } from './folder/move-folder-use-case/move-folder.use-case'
 import { RenameFolderUseCase } from './folder/rename-folder-use-case/rename-folder.use-case'
 import { SoftDeleteFolderUseCase } from './folder/soft-delete-folder-use-case/soft-delete-folder.use-case'
+import { ChangeQuotaLimitUseCase } from './quota/change-quota-limit-use-case/change-quota-limit.use-case'
+import { ChangeQuotaUsedUseCase } from './quota/change-quota-used-use-case/change-quota-used.use-case'
 import { CreateQuotaUseCase } from './quota/create-quota-use-case/create-quota.use-case'
+import { SearchUseCase } from './search-use-case/search.use-case'
 import { CreateSessionUseCase } from './session/create-session-use-case/create-session.use-case'
 
 export const services = [
@@ -37,6 +39,10 @@ export const services = [
     HardDeleteFolderUseCase,
     // Quota
     CreateQuotaUseCase,
+    ChangeQuotaUsedUseCase,
+    ChangeQuotaLimitUseCase,
     // Session
     CreateSessionUseCase,
+    // Search
+    SearchUseCase,
 ]

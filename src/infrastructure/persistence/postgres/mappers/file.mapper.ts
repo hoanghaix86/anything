@@ -9,10 +9,12 @@ export class FileMapper {
             parentId: entity.parentId,
             source: entity.source,
             name: entity.name,
-            size: entity.size,
+            size: Number(entity.size),
             mimeType: entity.mimeType,
             createdAt: new Date(entity.createdAt),
-            deletedAt: entity.deletedAt ? new Date(entity.deletedAt) : undefined,
+            deletedAt: entity.deletedAt
+                ? new Date(entity.deletedAt)
+                : undefined,
         })
     }
 
@@ -23,7 +25,7 @@ export class FileMapper {
         entity.parentId = domain.parentId
         entity.source = domain.source
         entity.name = domain.name
-        entity.size = domain.size
+        entity.size = Number(domain.size)
         entity.mimeType = domain.mimeType
         entity.createdAt = domain.createdAt
         entity.deletedAt = domain.deletedAt

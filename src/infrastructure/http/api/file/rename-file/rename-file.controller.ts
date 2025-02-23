@@ -8,8 +8,12 @@ import { RenameFileDto } from './rename-file.dto'
 export class RenameFileController {
     constructor(private readonly renameFileUseCase: RenameFileUseCase) {}
 
-    @Patch(':fileId/rename')
-    async run(@Auth() auth: AuthDto, @Param('fileId') fileId: string, @Body() dto: RenameFileDto) {
+    @Patch(':fileId')
+    async run(
+        @Auth() auth: AuthDto,
+        @Param('fileId') fileId: string,
+        @Body() dto: RenameFileDto,
+    ) {
         return await this.renameFileUseCase.execute({
             ownerId: auth.id,
             fileId,

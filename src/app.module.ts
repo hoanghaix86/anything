@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common'
-import { configurations } from './infrastructure/configurations'
-import { InfrastructureModule } from './infrastructure/infrastructure.module'
 import { services } from './application/services'
+import { configurations } from './infrastructure/configurations'
 import { controllers } from './infrastructure/http/api/controllers'
-import { guards } from './infrastructure/http/api/guards'
+import { guards } from './infrastructure/http/api/shared/guards'
+import { InfrastructureModule } from './infrastructure/infrastructure.module'
 
 @Module({
     imports: [...configurations, InfrastructureModule],

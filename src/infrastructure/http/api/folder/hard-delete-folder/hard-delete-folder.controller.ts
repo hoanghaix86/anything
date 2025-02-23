@@ -5,9 +5,11 @@ import { Auth } from '../../shared/decorators/auth.decorator'
 
 @Controller('folders')
 export class HardDeleteFolderController {
-    constructor(private readonly hardDeleteFolderUseCase: HardDeleteFolderUseCase) {}
+    constructor(
+        private readonly hardDeleteFolderUseCase: HardDeleteFolderUseCase,
+    ) {}
 
-    @Delete(':folderId/hard')
+    @Delete(':folderId/permanent')
     async run(@Auth() auth: AuthDto, @Param('folderId') folderId: string) {
         return await this.hardDeleteFolderUseCase.execute({
             accountId: auth.id,

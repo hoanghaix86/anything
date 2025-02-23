@@ -6,8 +6,8 @@ export class QuotaMapper {
         return Quota.restore({
             id: entity.id,
             accountId: entity.accountId,
-            used: entity.used,
-            limit: entity.limit,
+            used: Number(entity.used),
+            limit: Number(entity.limit),
             createdAt: new Date(entity.createdAt),
         })
     }
@@ -16,8 +16,8 @@ export class QuotaMapper {
         const entity = new QuotaEntity()
         entity.id = domain.id
         entity.accountId = domain.accountId
-        entity.used = domain.used
-        entity.limit = domain.limit
+        entity.used = Number(domain.used)
+        entity.limit = Number(domain.limit)
         entity.createdAt = domain.createdAt
         return entity
     }

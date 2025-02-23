@@ -17,7 +17,7 @@ export class FileEntity {
     @Column()
     name: string
 
-    @Column()
+    @Column({ type: 'bigint' })
     size: number
 
     @Column()
@@ -26,6 +26,6 @@ export class FileEntity {
     @Column({ name: 'created_at' })
     createdAt: Date
 
-    @Column({ name: 'deleted_at', default: undefined })
+    @Column({ name: 'deleted_at', default: null })
     deletedAt?: Date
 }

@@ -1,7 +1,12 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common'
+import {
+    BadRequestException,
+    Inject,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common'
+import { FolderProps } from 'src/domain/entities/folder'
 import { IFolderRepositoryPort } from 'src/domain/port/repositories/folder.repository'
 import { MoveFolderCommand } from './move-folder.command'
-import { FolderProps } from 'src/domain/entities/folder'
 
 @Injectable()
 export class MoveFolderUseCase {
@@ -11,20 +16,30 @@ export class MoveFolderUseCase {
     ) {}
 
     public async execute(input: MoveFolderCommand): Promise<FolderProps> {
-        const folder = await this.folderRepository.findOneById(input.accountId, input.folderId)
+        const folder = await this.folderRepository.findOneById(
+            input.accountId,
+            input.currentId,
+        )
         if (!folder) {
-            throw new NotFoundException('Folder not found or does not belong to the account')
+            throw new NotFoundException(
+                'Folder not found or does not belong to the account',
+            )
         }
 
-        if (input.targetFolderId) {
-            const targetFolder = await this.folderRepository.findOneById(input.accountId, input.targetFolderId)
+        if (input.targetId) {
+            const targetFolder = await this.folderRepository.findOneById(
+                input.accountId,
+                input.targetId,
+            )
             if (!targetFolder) {
-                throw new NotFoundException('Target folder not found or does not belong to the account')
+                throw new NotFoundException(
+                    'Target folder not found or does not belong to the account',
+                )
             }
         }
 
         try {
-            folder.moveTo(input.targetFolderId)
+            folder.moveTo(input.targetId)
         } catch (error) {
             throw new BadRequestException(error)
         }

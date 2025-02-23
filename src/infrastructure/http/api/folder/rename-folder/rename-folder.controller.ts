@@ -8,8 +8,12 @@ import { RenameFolderDto } from './rename-folder.dto'
 export class RenameFolderController {
     constructor(private readonly renameFolderUseCase: RenameFolderUseCase) {}
 
-    @Patch(':folderId/rename')
-    async run(@Auth() auth: AuthDto, @Param('folderId') folderId: string, @Body() dto: RenameFolderDto) {
+    @Patch(':folderId')
+    async run(
+        @Auth() auth: AuthDto,
+        @Param('folderId') folderId: string,
+        @Body() dto: RenameFolderDto,
+    ) {
         return await this.renameFolderUseCase.execute({
             accountId: auth.id,
             folderId,

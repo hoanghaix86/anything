@@ -1,3 +1,3 @@
 export class MoveFileDto {
-    targetFolderId: string
+    targetId: string
 }

@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 
-interface FileProps {
+export interface FileProps {
     id: string
     ownerId: string
     parentId?: string
@@ -13,7 +13,8 @@ interface FileProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface FileCreateProps extends Omit<FileProps, 'id' | 'createdAt' | 'deletedAt'> {}
+export interface FileCreateProps
+    extends Omit<FileProps, 'id' | 'createdAt' | 'deletedAt'> {}
 
 export class File {
     private readonly _id: string
@@ -35,7 +36,9 @@ export class File {
         this._size = props.size
         this._mimeType = props.mimeType
         this._createdAt = new Date(props.createdAt)
-        this._deletedAt = props.deletedAt ? new Date(props.deletedAt) : undefined
+        this._deletedAt = props.deletedAt
+            ? new Date(props.deletedAt)
+            : undefined
     }
 
     public get id(): string {

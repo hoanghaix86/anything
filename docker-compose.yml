@@ -1,0 +1,23 @@
+services:
+    db:
+        image: postgres:17-alpine3.20
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: SuperManIsWoman!!!
+            POSTGRES_DB: postgres
+        ports:
+            - '5432:5432'
+    app:
+        image: api-file-management:latest
+        environment:
+            APP_ENV: production
+            PORT: 3000
+            DB_URL: postgresql://postgres:SuperManIsWoman!!!@db:5432/postgres
+            STORAGE_TYPE: 'local'
+            LOCAL_UPLOAD: '/upload'
+            LOCAL_STORAGE: '/storage'
+            MINIO_ENDPOINT: ''
+            MINIO_ACCESS_KEY: ''
+            MINIO_SECRET_KEY: ''
+        ports:
+            - '3000:3000'

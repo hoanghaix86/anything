@@ -5,7 +5,9 @@ import { Auth } from '../../shared/decorators/auth.decorator'
 
 @Controller('folders')
 export class SoftDeleteFolderController {
-    constructor(private readonly softDeleteFolderUseCase: SoftDeleteFolderUseCase) {}
+    constructor(
+        private readonly softDeleteFolderUseCase: SoftDeleteFolderUseCase,
+    ) {}
 
     @Delete(':folderId')
     async run(@Auth() auth: AuthDto, @Param('folderId') folderId: string) {

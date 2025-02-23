@@ -5,6 +5,7 @@ import { IFileRepositoryPort } from 'src/domain/port/repositories/file.repositor
 import { Repository } from 'typeorm'
 import { FileEntity } from '../entities/file.entity'
 import { FileMapper } from '../mappers/file.mapper'
+import { SearchOption } from 'src/application/search-use-case/search.command'
 
 @Injectable()
 export class FileRepositoryAdapter implements IFileRepositoryPort {
@@ -24,17 +25,42 @@ export class FileRepositoryAdapter implements IFileRepositoryPort {
         return entities.map((entity) => FileMapper.toDomain(entity))
     }
 
-    async findOneById(ownerId: string, fileId: string): Promise<File | undefined> {
-        const entity = await this.fileRepository.findOne({ where: { id: fileId, ownerId } })
+    async findOneById(
+        ownerId: string,
+        fileId: string,
+    ): Promise<File | undefined> {
+        const entity = await this.fileRepository.findOne({
+            where: { id: fileId, ownerId },
+        })
         return entity ? FileMapper.toDomain(entity) : undefined
     }
 
-    async findManyByFolderId(ownerId: string, folderId: string): Promise<File[]> {
-        const entities = await this.fileRepository.find({ where: { ownerId, parentId: folderId } })
+    async findManyByFolderId(
+        ownerId: string,
+        folderId: string,
+    ): Promise<File[]> {
+        const entities = await this.fileRepository.find({
+            where: { ownerId, parentId: folderId },
+        })
         return entities.map((entity) => FileMapper.toDomain(entity))
     }
 
     async delete(file: File): Promise<void> {
         await this.fileRepository.delete({ id: file.id, ownerId: file.ownerId })
+    }
+
+    async search(ownerId: string, options: SearchOption): Promise<File[]> {
+        const query = this.fileRepository
+            .createQueryBuilder('file')
+            .where('file.ownerId = :ownerId', { ownerId })
+        if (options.name) {
+            query.andWhere('file.name LIKE :name', {
+                name: `%${options.name}%`,
+            })
+        }
+
+        const entities = await query.getMany()
+
+        return entities.map((entity) => FileMapper.toDomain(entity))
     }
 }

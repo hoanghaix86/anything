@@ -5,6 +5,7 @@ import { IFolderRepositoryPort } from 'src/domain/port/repositories/folder.repos
 import { Repository } from 'typeorm'
 import { FolderEntity } from '../entities/folder.entity'
 import { FolderMapper } from '../mappers/folder.mapper'
+import { SearchOption } from 'src/application/search-use-case/search.command'
 
 @Injectable()
 export class FolderRepositoryAdapter implements IFolderRepositoryPort {
@@ -24,8 +25,14 @@ export class FolderRepositoryAdapter implements IFolderRepositoryPort {
         return entities.map((entity) => FolderMapper.toDomain(entity))
     }
 
-    async findOneById(ownerId: string, folderId: string): Promise<Folder | undefined> {
-        const entity = await this.folderRepository.findOneBy({ ownerId, id: folderId })
+    async findOneById(
+        ownerId: string,
+        folderId: string,
+    ): Promise<Folder | undefined> {
+        const entity = await this.folderRepository.findOneBy({
+            ownerId,
+            id: folderId,
+        })
         if (entity) {
             return FolderMapper.toDomain(entity)
         }
@@ -33,6 +40,24 @@ export class FolderRepositoryAdapter implements IFolderRepositoryPort {
     }
 
     async delete(folder: Folder): Promise<void> {
-        await this.folderRepository.delete({ ownerId: folder.ownerId, id: folder.id })
+        await this.folderRepository.delete({
+            ownerId: folder.ownerId,
+            id: folder.id,
+        })
+    }
+
+    async search(ownerId: string, options: SearchOption): Promise<Folder[]> {
+        const query = this.folderRepository
+            .createQueryBuilder('folder')
+            .where('folder.ownerId = :ownerId', { ownerId })
+        if (options.name) {
+            query.andWhere('folder.name LIKE :name', {
+                name: `%${options.name}%`,
+            })
+        }
+
+        const entities = await query.getMany()
+
+        return entities.map((entity) => FolderMapper.toDomain(entity))
     }
 }

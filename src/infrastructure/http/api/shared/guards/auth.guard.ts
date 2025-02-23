@@ -1,8 +1,14 @@
-import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+    CanActivate,
+    ExecutionContext,
+    Inject,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { IAuthTokenPort } from 'src/domain/port/auth-token.port'
-import { RequestAuth } from '../shared/request'
-import { IS_PUBLIC_KEY } from '../shared/decorators/public.decorator'
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator'
+import { RequestAuth } from '../request'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -13,10 +19,10 @@ export class AuthGuard implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         // allow public route
-        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-            context.getHandler(),
-            context.getClass(),
-        ])
+        const isPublic = this.reflector.getAllAndOverride<boolean>(
+            IS_PUBLIC_KEY,
+            [context.getHandler(), context.getClass()],
+        )
         if (isPublic) return true
 
         // token

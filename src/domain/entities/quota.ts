@@ -1,6 +1,6 @@
 import { v7 } from 'uuid'
 
-interface QuotaProps {
+export interface QuotaProps {
     id: string
     accountId: string
     used: number
@@ -21,8 +21,8 @@ export class Quota {
     private constructor(props: QuotaProps) {
         this._id = props.id
         this._accountId = props.accountId
-        this._used = props.used
-        this._limit = props.limit
+        this._used = Number(props.used)
+        this._limit = Number(props.limit)
         this._createdAt = new Date(props.createdAt)
     }
 
@@ -48,35 +48,48 @@ export class Quota {
 
     static create(accountId: string): Quota {
         const id = v7()
-        const defaultVolume = Quota.DEFAULT_GIB * Quota.BYTES_PER_GIB
+        const defaultVolume = Number(Quota.DEFAULT_GIB * Quota.BYTES_PER_GIB)
         const defaultUsed = 0
         const createdAt = new Date()
-        return new Quota({ id, accountId, used: defaultUsed, limit: defaultVolume, createdAt })
+        return new Quota({
+            id,
+            accountId,
+            used: defaultUsed,
+            limit: defaultVolume,
+            createdAt,
+        })
     }
 
     static restore(props: QuotaProps): Quota {
         return new Quota(props)
     }
 
-    hasAvailableSpace(fileSize: number): boolean {
-        return this.used + fileSize <= this.limit
+    hasAvailableSpace(value: number): boolean {
+        return this.used + value <= this.limit
     }
 
-    addUsage(fileSize: number): void {
-        if (!this.hasAvailableSpace(fileSize)) {
+    addUsage(value: number): void {
+        if (!this.hasAvailableSpace(value)) {
             throw new Error('Quota exceeded')
         }
-        this._used += fileSize
+        this._used += value
     }
 
-    removeUsage(fileSize: number): void {
-        this._used = Math.max(0, this._used - fileSize)
+    removeUsage(value: number): void {
+        this._used = this._used - value
     }
 
-    changeQuota(newQuotaGiB: number): void {
-        if (newQuotaGiB < this._limit / Quota.BYTES_PER_GIB) {
-            throw new Error('New quota must be greater than current quota')
+    changeLimit(unitAsGib: number): void {
+        this._limit = Number(unitAsGib * Quota.BYTES_PER_GIB)
+    }
+
+    toValue(): QuotaProps {
+        return {
+            id: this._id,
+            accountId: this._accountId,
+            used: this._used,
+            limit: this._limit,
+            createdAt: this._createdAt,
         }
-        this._limit = newQuotaGiB * Quota.BYTES_PER_GIB
     }
 }
