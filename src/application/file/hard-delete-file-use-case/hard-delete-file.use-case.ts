@@ -13,9 +13,14 @@ export class HardDeleteFileUseCase {
     ) {}
 
     public async execute(input: HardDeleteFileCommand): Promise<void> {
-        const file = await this.fileRepository.findOneById(input.ownerId, input.fileId)
+        const file = await this.fileRepository.findOneById(
+            input.ownerId,
+            input.fileId,
+        )
         if (!file) {
-            throw new NotFoundException('File not found or does not belong to the owner')
+            throw new NotFoundException(
+                'File not found or does not belong to the owner',
+            )
         }
 
         await this.storageSource.delete(file.source)
