@@ -10,6 +10,7 @@ import { HardDeleteFolderController } from './folder/hard-delete-folder/hard-del
 import { MoveFolderController } from './folder/move-folder/move-folder.controller'
 import { RenameFolderController } from './folder/rename-folder/rename-folder.controller'
 import { SoftDeleteFolderController } from './folder/soft-delete-folder/soft-delete-folder.controller'
+import { GetQuotaController } from './quota/get-quota/get-quota.controller'
 import { SearchController } from './search/search.controller'
 
 export const controllers = [
@@ -29,4 +30,6 @@ export const controllers = [
     HardDeleteFileController,
     // Search
     SearchController,
+    // Quota
+    GetQuotaController,
 ]

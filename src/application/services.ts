@@ -15,6 +15,7 @@ import { SoftDeleteFolderUseCase } from './folder/soft-delete-folder-use-case/so
 import { ChangeQuotaLimitUseCase } from './quota/change-quota-limit-use-case/change-quota-limit.use-case'
 import { ChangeQuotaUsedUseCase } from './quota/change-quota-used-use-case/change-quota-used.use-case'
 import { CreateQuotaUseCase } from './quota/create-quota-use-case/create-quota.use-case'
+import { GetQuotaUseCase } from './quota/get-quota-use-case/get-quota.use-case'
 import { SearchUseCase } from './search-use-case/search.use-case'
 import { CreateSessionUseCase } from './session/create-session-use-case/create-session.use-case'
 
@@ -41,6 +42,7 @@ export const services = [
     CreateQuotaUseCase,
     ChangeQuotaUsedUseCase,
     ChangeQuotaLimitUseCase,
+    GetQuotaUseCase,
     // Session
     CreateSessionUseCase,
     // Search
