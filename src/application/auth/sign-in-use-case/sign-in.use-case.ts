@@ -1,4 +1,9 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+    BadRequestException,
+    Inject,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common'
 import { IAuthTokenPort } from 'src/domain/port/auth-token.port'
 import { IPasswordHasherPort } from 'src/domain/port/password-hasher.port'
 import { IAccountRepositoryPort } from 'src/domain/port/repositories/account.repository'
@@ -19,14 +24,19 @@ export class SignInUseCase {
     async execute(input: SignInCommand): Promise<{ accessToken: string }> {
         const emailVO = EmailValueObject.fromRaw(input.email)
 
-        const account = await this.accountRepository.findOneByEmail(emailVO.getValue())
+        const account = await this.accountRepository.findOneByEmail(
+            emailVO.getValue(),
+        )
         if (!account) {
-            throw new UnauthorizedException('Invalid email or password')
+            throw new BadRequestException('Invalid email or password')
         }
 
-        const isValid = await this.passwordHasher.compare(input.password, account.password.getValue())
+        const isValid = await this.passwordHasher.compare(
+            input.password,
+            account.password.getValue(),
+        )
         if (!isValid) {
-            throw new UnauthorizedException('Invalid email or password')
+            throw new BadRequestException('Invalid email or password')
         }
 
         const accessToken = this.authToken.generate({ id: account.id })
